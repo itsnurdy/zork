@@ -16,6 +16,6 @@ struct Dialogues{
     const static string wordleIncorrectInput;
     const static string wordleSuccess;
     const static string wordleOutOfAttempts;
-}
+};
 
 #endif // DIALOGUES_H
