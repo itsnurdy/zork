@@ -39,7 +39,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="topButton">
+   <widget class="QPushButton" name="upButton">
     <property name="geometry">
      <rect>
       <x>300</x>
@@ -112,6 +112,19 @@
        <height>369</height>
       </rect>
      </property>
+     <widget class="QLabel" name="outputConsole">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>311</width>
+        <height>371</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QTextEdit" name="textEdit">
