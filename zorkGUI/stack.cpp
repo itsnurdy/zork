@@ -1,6 +1,7 @@
 #include "stack.h"
 #include "room.h"
 
+// This is the main constructor which takes a list.
 template <typename T>
 Stack<T>::Stack(vector<T> list) {
     this->list = list;
@@ -28,6 +29,7 @@ T Stack<T>::popDelete() {
     return NULL;
 }
 
+// This will clear a stack.
 template <typename T>
 void Stack<T>::clear() {
     while(this->list.size() != 0) {

@@ -8,7 +8,7 @@ using namespace std;
 
 class ItemType {
 public:
-    enum type : int {HINT = 1, HEALTH = 2, MONEY = 4};
+    enum type : int {HINT = 1, OBJECT = 2};
 };
 
 class Item : public ItemType {
@@ -17,9 +17,6 @@ protected:
     string description;
     string longDescription;
 
-    float value;
-    bool sellable;
-
     string usedDialogue;
 
     type itemType;
@@ -27,25 +24,15 @@ protected:
     string (*useFunc)(Item*);
 
 public:
-    Item (string description, float value);
+    Item (string description, type ItemType);
     Item (string description, string usedDialogue, type ItemType);
-    Item (string description, string usedDialogue);
-    Item (string description);
 
     Item(const Item& other);
 
-    string getShortDescription;
-    string getLongDescription;
-    float getValue;
-    void setValue(float value);
+    string getShortDescription();
+    string getLongDescription();
     string getUsedDialogue();
     type getType();
 
 };
-
-class ConsumableItem : public Item {
-public:
-    void consumeItem();
-};
-
 #endif // ITEM_H

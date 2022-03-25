@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class wordlegame {
+class WordleGame {
 
 public:
     enum status {STOP, PROGRESS, FAIL, SUCCESS};

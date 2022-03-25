@@ -10,18 +10,18 @@
 
 using namespace std;
 
-vector<string> wordlegame::allWords;
-int wordlegame::triesRemaining;
-wordlegame::status wordlegame::wordleStatus = wordlegame::STOP;
-string wordlegame::targetWord;
+vector<string> WordleGame::allWords;
+int WordleGame::triesRemaining;
+WordleGame::status WordleGame::wordleStatus = WordleGame::STOP;
+string WordleGame::targetWord;
 
 // Basic comparison between two characters.
-bool wordlegame::isEqualIgnoreCase(char& first, char& second) {
+bool WordleGame::isEqualIgnoreCase(char& first, char& second) {
     return tolower(first) == tolower(second);
 }
 
 // Reading the file and initialising out allWords list.
-void wordlegame::initWords(string fileName) {
+void WordleGame::initWords(string fileName) {
     if(fileName.empty()) {
         string text;
 
@@ -29,7 +29,7 @@ void wordlegame::initWords(string fileName) {
         QTextStream in(&file);
         if(file.open(QFile::ReadOnly | QFile::Text)) {
             while(!in.atEnd()) {
-                wordlegame::allWords.push_back(in.readLine().toStdString());
+                WordleGame::allWords.push_back(in.readLine().toStdString());
             }
         }
         file.close();
@@ -37,16 +37,16 @@ void wordlegame::initWords(string fileName) {
 }
 
 // Sets the status and initialises the wordle game.
-void wordlegame::initWordleGame() {
+void WordleGame::initWordleGame() {
     initWords("");
-    wordlegame::wordleStatus = wordlegame::PROGRESS;
+    WordleGame::wordleStatus = WordleGame::PROGRESS;
 }
 
 // This evaluates the user's input accordingly.
-string wordlegame::evaluateInput(const string& input) {
+string WordleGame::evaluateInput(const string& input) {
     string output = "";
     unordered_map<char,int> letter_counts;
-    string correctWord = wordlegame::targetWord;
+    string correctWord = WordleGame::targetWord;
     int correctLettersAmount = 0;
 
     // Checking if word given is the same size as the correct word.
@@ -71,7 +71,7 @@ string wordlegame::evaluateInput(const string& input) {
         char currentInputLetter = input.at(i);
 
         // If character is at correct index.
-        if(wordlegame::isEqualIgnoreCase(currentInputLetter, correctWord.at(i))) {
+        if(WordleGame::isEqualIgnoreCase(currentInputLetter, correctWord.at(i))) {
             letter_counts[currentInputLetter] -= 1;
             output.push_back('[');
             output.push_back(currentInputLetter);
@@ -96,33 +96,33 @@ string wordlegame::evaluateInput(const string& input) {
     // If guess is correct status is set to success.
     if (correctLettersAmount == (int) correctWord.size()) {
         output += Dialogues::wordleSuccess;
-        wordlegame::wordleStatus = wordlegame::SUCCESS;
+        WordleGame::wordleStatus = WordleGame::SUCCESS;
     } else {
         // If not it will deduct a try and then stop if the user has no more tries left.
-        wordlegame::triesRemaining--;
+        WordleGame::triesRemaining--;
 
-        if(wordlegame::triesRemaining <= 0) {
+        if(WordleGame::triesRemaining <= 0) {
             output += Dialogues::wordleOutOfAttempts;
-            wordlegame::wordleStatus = wordlegame::STOP;
+            WordleGame::wordleStatus = WordleGame::STOP;
         } else {
-            output += Dialogues::printAttemptsLeft(wordlegame::triesRemaining);
+            output += Dialogues::printAttemptsLeft(WordleGame::triesRemaining);
         }
     }
     return output;
 }
 
 // Returns all words.
-vector<string> wordlegame::getAllWords() {
-    return wordlegame::allWords;
+vector<string> WordleGame::getAllWords() {
+    return WordleGame::allWords;
 }
 
 // Resets the wordle game.
-void wordlegame::resetWordleGame() {
-    wordlegame::triesRemaining = 5;
-    wordlegame::targetWord = allWords.at(rand() % allWords.size());
+void WordleGame::resetWordleGame() {
+    WordleGame::triesRemaining = 5;
+    WordleGame::targetWord = allWords.at(rand() % allWords.size());
 }
 
 // Returns wordle status.
-wordlegame::status wordlegame::getWordleStatus() {
-    return wordlegame::wordleStatus;
+WordleGame::status WordleGame::getWordleStatus() {
+    return WordleGame::wordleStatus;
 }

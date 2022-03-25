@@ -1,36 +1,39 @@
 #include "item.h"
 
-Item::Item(string description, float value) {
+// Default constructor.
+Item::Item(string description, type ItemType) {
     this->description = description;
-    this->value = value;
+    this->itemType = ItemType;
 }
 
+// Default constructor with type.
 Item::Item(string description, string usedDialogue, type ItemType) {
     this->description = description;
     this->usedDialogue = usedDialogue;
     this->itemType = ItemType;
 }
 
-Item::Item(string description, string usedDialogue) {
-    this->description = description;
-    this->usedDialogue = usedDialogue;
-}
-
-Item::Item(const Item& other) : description(other.description), value(other.value) {
+// Copy constructor.
+Item::Item(const Item& other) : description(other.description) {
     // Copies the item entirely.
 }
 
-void Item::setValue(float value) {
-    if (value > 9999 || value < 0)
-        return;
-    else
-       this->value = value;
-}
-
+// Returning dialogue.
 string Item::getUsedDialogue() {
     return this->usedDialogue;
 }
 
+// Returning item type.
 Item::type Item::getType() {
     return itemType;
+}
+
+// Returning short description.
+string Item::getShortDescription() {
+    return this->description;
+}
+
+// Returning long description.
+string Item::getLongDescription() {
+    return this->longDescription;
 }

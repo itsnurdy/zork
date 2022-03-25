@@ -88,7 +88,7 @@ void MainWindow::on_textEdit_textChanged() {
         return;
     }
 
-    // Removind the "\n" from the string.
+    // Removing the "\n" from the string.
     input = input.substr(0, newLineIndex);
 
     // Checks if there are any newlines or if the "enter" key is pressed
@@ -102,10 +102,9 @@ void MainWindow::on_textEdit_textChanged() {
 // Trying to convert input to a command and printing out the appropriate output.
 void MainWindow::parseInput(string input){
     Command *command = ZorkUL::getParser()->convertToCommand(input);
-    overwriteConsole("> " + input + "\n");
     string output = ZorkUL::processCommand(*command, this);
 
-    // Processes errors
+    // Processes errors available.
     if(output.compare("") == 0){
         overwriteConsole(Dialogues::inputError);
         return;

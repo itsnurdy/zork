@@ -10,24 +10,28 @@
 #include "constants.h"
 #include "errors.h"
 #include "stack.h"
+#include "item.h"
+#include "ZorkUL.h"
+#include "wordlegame.h"
 
 using namespace std;
 using namespace Constants;
-#include "ZorkUL.h"
 
+// Initialising vectors and objects.
 Parser *ZorkUL::parser;
 Room *ZorkUL::currentRoom;
+vector<Item*> ZorkUL::itemsInInventory;
 vector<Room*> ZorkUL::allRooms;
 Stack<Room*> ZorkUL::recentRooms;
 
 int main(int argc, char *argv[]) {
-
     Parser* parser = new Parser();
     ZorkUL::setParser(parser);
 
     // For printing stuff in the output pane.
     QTextStream out(stdout);
 
+    WordleGame *wordlegame = new WordleGame();
     QApplication a(argc, argv);
     MainWindow w;
     MainWindow *windowPtr = &w;
@@ -41,46 +45,44 @@ int main(int argc, char *argv[]) {
     string roomDescription = ZorkUL::getCurrentRoom()->getShortDescription();
     w.addStringToConsole(Dialogues::printCurrentRoom(roomDescription));
 
+    delete wordlegame;
     delete ZorkUL::getParser();
     return a.exec();
 }
 
+// Default constructor.
 ZorkUL::ZorkUL() {
     createRooms();
 }
 
-void ZorkUL::setAllRooms(vector<Room *> rooms) {
-    ZorkUL::allRooms = rooms;
-}
-
-vector<Room*> ZorkUL::getAllRooms() {
-    return ZorkUL::allRooms;
-}
-
-void ZorkUL::deleteAll() {
-    currentRoom = NULL;
-
-    for(auto& room : ZorkUL::getAllRooms()) {
-        delete room;
-    }
-
-    ZorkUL::getAllRooms().clear();
-}
-
+// This initialises EVERYTHING.
 vector<Room*> ZorkUL::createRooms() {
     using namespace Constants;
 
+    // Creates rooms and makes them with the 'new' keyword.
     Room *mainplace, *alleyway, *bridge, *computerroom, *creepyroom, *flowershop, *lakeview, *trainstation;
 
+    mainplace = new Room("Main", RoomDialogues::mainplace, MAIN, Room::NORMAL, false);
+    alleyway = new Room("AlleyWay", RoomDialogues::alleyway, ALLEYWAY, Room::NORMAL, false);
+    bridge = new Room("Bridge", RoomDialogues::bridge, BRIDGE, Room::NORMAL, false);
+    computerroom = new Room("Computer Room", RoomDialogues::computerroom, COMPUTERROOM, Room::NORMAL, false);
+    creepyroom = new Room("Creepy Room", RoomDialogues::creepyroom, CREEPYROOM, Room::NORMAL, false);
+    flowershop = new Room("Flowershop", RoomDialogues::flowershop, FLOWERSHOP, Room::NORMAL, false);
+    lakeview = new Room("Lake View", RoomDialogues::lakeview, LAKEVIEW, Room::NORMAL, false);
+    trainstation = new Room("Trainstation", RoomDialogues::trainstation, TRAINSTATION, Room::NORMAL, false);
+
     vector<Room*> allRooms;
-    mainplace = new Room("Main", RoomDialogues::mainplace, MAIN);
-    alleyway = new Room("AlleyWay", RoomDialogues::alleyway, ALLEYWAY);
-    bridge = new Room("Bridge", RoomDialogues::bridge, BRIDGE);
-    computerroom = new Room("Computer Room", RoomDialogues::computerroom, COMPUTERROOM);
-    creepyroom = new Room("Creepy Room", RoomDialogues::creepyroom, CREEPYROOM);
-    flowershop = new Room("Flowershop", RoomDialogues::flowershop, FLOWERSHOP);
-    lakeview = new Room("Lake View", RoomDialogues::lakeview, LAKEVIEW);
-    trainstation = new Room("Trainstation", RoomDialogues::trainstation, TRAINSTATION);
+
+    // Creating items and making them with the 'new' keyword.
+    Item *pen, *copy, *mariohat;
+    pen = new Item("Pen", Item::OBJECT);
+    copy = new Item("Copy", Item::OBJECT);
+    mariohat = new Item("Mario Hat", Item::OBJECT);
+
+    // Adding items to rooms.
+    *computerroom + mariohat;
+    *trainstation + pen;
+    *alleyway + copy;
 
     // Setting the exists for every room.
     mainplace->setExits(alleyway, computerroom, trainstation, flowershop);
@@ -112,6 +114,33 @@ vector<Room*> ZorkUL::createRooms() {
     return allRooms;
 }
 
+// Setting all rooms.
+void ZorkUL::setAllRooms(vector<Room *> rooms) {
+    ZorkUL::allRooms = rooms;
+}
+
+// Getting all rooms.
+vector<Room*> ZorkUL::getAllRooms() {
+    return ZorkUL::allRooms;
+}
+
+// Deleting all rooms and items.
+void ZorkUL::deleteAll() {
+    currentRoom = NULL;
+
+    for(auto& room : ZorkUL::getAllRooms()) {
+        delete room;
+    }
+
+    for(auto& item : ZorkUL::itemsInInventory) {
+        delete item;
+    }
+
+    ZorkUL::getAllRooms().clear();
+    ZorkUL::itemsInInventory.clear();
+}
+
+// Processing a command given by user.
 string ZorkUL::processCommand(Command command, MainWindow *window) {
     string output = "";
 
@@ -164,11 +193,12 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
     return output;
 }
 
-// COMMANDS
+// Getting the current room.
 Room *ZorkUL::getCurrentRoom() {
     return ZorkUL::currentRoom;
 }
 
+// Outputing all the commands available.
 string ZorkUL::printHelp() {
     string output = "";
     output += "Valid inputs are: ";
@@ -176,6 +206,7 @@ string ZorkUL::printHelp() {
     return output;
 }
 
+// Main bit of the go command.
 bool ZorkUL::goRoom(Command command) {
     if (!command.hasSecondWord()) {
         return false;
@@ -211,11 +242,35 @@ bool ZorkUL::goRoom(Command command) {
     }
 }
 
+// Updates the current room and background.
 void ZorkUL::updateRoom(Room *room, MainWindow *window) {
     currentRoom = room;
     window->updateBackground(room->getBackgroundPath());
 }
 
+// Finding a specific item index in the itemsInInventory vector.
+int ZorkUL::findItem(const string& item) {
+    int sizeItems = (int) (ZorkUL::itemsInInventory.size());
+
+    if (ZorkUL::itemsInInventory.size() < 1) {
+        return -1;
+    }
+
+    else if (ZorkUL::itemsInInventory.size() > 0) {
+        int x = 0;
+        for (int n = sizeItems; n > 0; n--) {
+            int tempFlag = item.compare(ZorkUL::itemsInInventory[x]->getShortDescription());
+            if (tempFlag == 0) {
+                return x;
+            }
+            x++;
+        }
+    }
+
+    return -1;
+}
+
+// Parser set and get commands.
 void ZorkUL::setParser(Parser *parser){
     ZorkUL::parser = parser;
 }

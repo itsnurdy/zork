@@ -26,14 +26,14 @@ Command* Parser::convertToCommand(string input){
         words.push_back(input.substr(pos + 1, input.size() - pos - 1));
     }
 
-    if (words.size() == 1) // was only 1 word entered?
-        word1 = words[0]; // get first word
-    else if (words.size() >= 2) { // were at least 2 words entered?
-        word1 = words[0]; // get first word
-        word2 = words[1]; // get second word
+    if (words.size() == 1) // Was only 1 word entered?
+        word1 = words[0]; // Get first word.
+    else if (words.size() >= 2) { // Were at least 2 words entered?
+        word1 = words[0]; // Get first word
+        word2 = words[1]; // Get second word
     }
 
-    // note: we just ignore the rest of the input line.
+    // note: We just ignore the rest of the input line.
     // Now check whether this word is known. If so, create a command with it.
     // If not, create a "nil" command (empty string for unknown command).
 
