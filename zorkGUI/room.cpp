@@ -31,7 +31,7 @@ string Room::getShortDescription() {
 }
 
 string Room::getLongDescription() {
-    return "room = " + description + ".\n" + exitString();
+    return "You are currently in: " + description + "\n" + exitString();
 }
 
 string Room::getBackgroundPath() {
@@ -39,7 +39,7 @@ string Room::getBackgroundPath() {
 }
 
 string Room::exitString() {
-    string returnString = "\nexits =";
+    string returnString = "\nOptions for exiting this current location =";
     for (map<string, Room*>::iterator i = exits.begin(); i != exits.end(); i++)
         // Loop through map
         returnString += "  " + i->first;	// access the "first" element of the pair (direction as a string)

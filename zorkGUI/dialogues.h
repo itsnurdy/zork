@@ -20,18 +20,20 @@ struct Dialogues{
 
 namespace RoomDialogues {
 
-    const string mainplace = "The main location is a backalley street behind a"
-                        " coffee shop where you find the most peaceful.";
-    const string trainstation = "A cold, cold day at the trainstation just waiting"
-                                " for that train to show up.";
-    const string flowershop = "Lots of exotic fish and other creatures all engulfed by"
+    const string mainplace = "The main location which is a backalley"
+                             " street behind a coffee shop where"
+                             " you find yourself the most peaceful. ";
+    const string trainstation = " A location where it is a cold, cold day at the "
+                                " trainstation just waiting"
+                                " for that train to show up. ";
+    const string flowershop = " A location where there are lots of exotic fish and other creatures all engulfed by"
                               " flowers arround them, you spot a woman watering the amazing"
-                              " flowers outside the shop.";
-    const string creepyroom = "This is a mystical place, you wonder what the hell is behind that"
-                              " door on the left. The atmosphere is eerie.";
-    const string computerroom = "This room is where everyone wants to be, lots of toy figures and"
-                                " an undressed mario reading his emails.";
-    const string bridge = "As you look out at the city you notice how the buildings suddenly at the press"
+                              " flowers outside the shop. ";
+    const string creepyroom = " This mystical place, you wonder what the hell is behind that"
+                              " door on the left. The atmosphere is eerie. ";
+    const string computerroom = " This room where everyone wants to be, lots of toy figures and"
+                                " an undressed mario reading his emails. ";
+    const string bridge = " An outside adventure, as you look out at the city you notice how the buildings suddenly at the press"
                           " of a button shut their power off.";
     const string alleyway = "This should be your favourite location, the small breeze in the wind knocking"
                             " down the pedals from the japaneese cherry trees.";

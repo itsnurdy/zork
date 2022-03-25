@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/locations">
+        <file>locations/alleyway.gif</file>
+        <file>locations/bridge.gif</file>
+        <file>locations/computerroom.gif</file>
+        <file>locations/creepyroom.gif</file>
+        <file>locations/flowershop.gif</file>
+        <file>locations/lakeview.gif</file>
+        <file>locations/trainstation.gif</file>
+        <file>locations/main.gif</file>
+    </qresource>
+</RCC>

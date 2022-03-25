@@ -16,8 +16,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->outputConsole->setWordWrap(true);
 
     ui->background->setScaledContents(true);
+    ui->textEdit->setFocus();
 }
 
 MainWindow::~MainWindow()

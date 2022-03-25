@@ -37,3 +37,16 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    locations/alleyway.gif \
+    locations/bridge.gif \
+    locations/computerroom.gif \
+    locations/creepyroom.gif \
+    locations/flowershop.gif \
+    locations/lakeview.gif \
+    locations/main.gif \
+    locations/trainstation.gif
+
+RESOURCES += \
+    resources.qrc

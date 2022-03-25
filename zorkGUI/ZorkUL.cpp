@@ -35,7 +35,6 @@ int main(int argc, char *argv[]) {
     w.clearConsole();
 
     ZorkUL::setAllRooms(ZorkUL::createRooms());
-    w.addStringToConsole(Dialogues::welcome);
 
     ZorkUL::updateRoom(ZorkUL::getCurrentRoom(), windowPtr);
     string roomDescription = ZorkUL::getCurrentRoom()->getShortDescription();
@@ -88,7 +87,7 @@ vector<Room*> ZorkUL::createRooms() {
     computerroom->setExits(NULL,NULL, creepyroom, mainplace);
     creepyroom->setExits(computerroom, NULL, NULL, NULL);
 
-    alleyway->setExits(bridge, NULL, NULL, mainplace);
+    alleyway->setExits(bridge, NULL, mainplace, NULL);
     bridge->setExits(NULL, NULL, alleyway, NULL);
 
     trainstation->setExits(mainplace,NULL,lakeview,NULL);
@@ -199,7 +198,6 @@ bool ZorkUL::goRoom(Command command) {
         } else {
             currentRoom = nextRoom;
             recentRooms.push(previousRoom);
-            //cout << currentRoom->longDescription() << endl;
             return true;
         }
     }
