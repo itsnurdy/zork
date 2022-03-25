@@ -13,10 +13,12 @@ SOURCES += \
     command.cpp \
     commandwords.cpp \
     dialogues.cpp \
+    item.cpp \
     mainwindow.cpp \
     parser.cpp \
     room.cpp \
-    stack.cpp
+    stack.cpp \
+    wordlegame.cpp
 
 HEADERS += \
     ZorkUL.h \
@@ -25,10 +27,12 @@ HEADERS += \
     constants.h \
     dialogues.h \
     errors.h \
+    item.h \
     mainwindow.h \
     parser.h \
     room.h \
-    stack.h
+    stack.h \
+    wordlegame.h
 
 FORMS += \
     mainwindow.ui
