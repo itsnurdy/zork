@@ -12,6 +12,7 @@
 #include "stack.h"
 
 using namespace std;
+using namespace Constants;
 #include "ZorkUL.h"
 
 Parser *ZorkUL::parser;
@@ -129,8 +130,6 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
                 ZorkUL::updateRoom(currentRoom, window);
 
                 output += currentRoom->getLongDescription();
-                //return currentRoom->longDescription();
-
             }
             else{
                 throw NoRoomError();
@@ -138,19 +137,28 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
         }
         catch(NoRoomError& errorMessage){
             output += errorMessage.what();
-            //return errorMessage.what();
         }
     }
     else if (commandWord.compare("quit") == 0) {
         if (command.hasSecondWord())
             output += "Overdefined input. If you want to quit, please type 'quit' in the input console or click the 'quit' button.";
-
-        //            return "Overdefined input. If you want to quit, please type 'quit' in the input console or click the 'quit' button.";
         else{
             ZorkUL::deleteAll();
         }
 
         exit(0); /**signal to quit*/
+    }
+    else if (commandWord.compare("map") == 0) {
+        if (command.hasSecondWord()) {
+            output += "Overdefined input. If you want to use map, please type 'map' in the input console.";
+        } else {
+            output += "If you look to your left you will notice the current map of the game. \n\n"
+                      "You are currently in: "
+                      + currentRoom->getName() +
+                      ". \n"
+                      + currentRoom->exitString();
+            window->updateBackground(MAP);
+        }
     }
 
     return output;

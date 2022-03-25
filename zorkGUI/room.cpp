@@ -26,6 +26,10 @@ void Room::setExits(Room *north, Room *east, Room *south, Room *west) {
         exits["west"] = west;
 }
 
+string Room::getName() {
+    return name;
+}
+
 string Room::getShortDescription() {
     return description;
 }

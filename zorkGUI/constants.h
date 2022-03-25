@@ -14,6 +14,7 @@ namespace Constants{
     const string LAKEVIEW = ":/locations/locations/lakeview.gif";
     const string MAIN = ":/locations/locations/main.gif";
     const string TRAINSTATION = ":/locations/locations/trainstation.gif";
+    const string MAP = ":/locations/locations/map.png";
 }
 
 #endif // CONSTANTS_H

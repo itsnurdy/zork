@@ -137,3 +137,7 @@ void MainWindow::on_leftButton_released() {
 void MainWindow::on_quitButton_released() {
     parseInput("quit");
 }
+
+void MainWindow::on_mapButton_released() {
+    parseInput("map");
+}

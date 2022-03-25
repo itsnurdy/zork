@@ -25,6 +25,7 @@ public:
     virtual ~Room();
 
     void setExits(Room *north, Room *east, Room *south, Room *west);
+    string getName();
     string getShortDescription();
     string getLongDescription();
     string getBackgroundPath();
