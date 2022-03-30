@@ -44,8 +44,10 @@ void WordleGame::initWordleGame() {
 
 // This evaluates the user's input accordingly.
 string WordleGame::evaluateInput(const string& input) {
-    string output = "";
+    string output = "[] -> correct letter and position\n"
+            "{} -> correct letter, wrong position\n\n";
     unordered_map<char,int> letter_counts;
+    string wordGiven = input;
     string correctWord = WordleGame::targetWord;
     int correctLettersAmount = 0;
 
@@ -91,11 +93,12 @@ string WordleGame::evaluateInput(const string& input) {
         }
     }
 
-    output = output + " DEV: " + correctWord + '\n';
+// Development purposes.
+//    output = output + " correct: " + correctWord + '\n';
 
     // If guess is correct status is set to success.
     if (correctLettersAmount == (int) correctWord.size()) {
-        output += Dialogues::wordleSuccess;
+        output = Dialogues::wordleSuccess;
         WordleGame::wordleStatus = WordleGame::SUCCESS;
     } else {
         // If not it will deduct a try and then stop if the user has no more tries left.

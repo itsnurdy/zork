@@ -10,15 +10,18 @@ template <typename T>
 class Stack{
 private:
     vector<T> list;
-    void setList(vector<T>);
-    int max = 8;
+    size_t max = 8;
 
 public:
     Stack(){};
     Stack(vector<T>);
     T peek();
+    T popDelete();
 
-    T pop(){
+    void clear();
+
+    // Popping the last item on the stack and removing it.
+    T pop() {
         T output = NULL;
         if(this->list.size() > 0) {
             output = this->list.at(this->list.size() - 1);
@@ -26,17 +29,14 @@ public:
             return output;
         }
         return output;
-    };
+    }
 
-    T popDelete();
-    void clear();
-
+    // This will push an item onto the stack.
     void push(T item) {
-        // If size exceeds, remove the bottom item of the stack and then add new item.
-        if(this->list.size() <= this->max){
+        // Checks to see if the size of the stack is excedeed.
+        if(this->list.size() <= this->max) {
             this->list.push_back(item);
-        }
-        else{
+        } else {
             this->list.erase(this->list.begin());
             this->list.push_back(item);
         }

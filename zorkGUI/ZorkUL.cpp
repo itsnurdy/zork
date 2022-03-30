@@ -62,6 +62,12 @@ vector<Room*> ZorkUL::createRooms() {
     // Creates rooms and makes them with the 'new' keyword.
     Room *mainplace, *alleyway, *bridge, *computerroom, *creepyroom, *flowershop, *lakeview, *trainstation;
 
+    // Creating items and making them with the 'new' keyword.
+    Item *pen, *copy, *mariohat;
+    pen = new Item("Pen", Item::OBJECT);
+    copy = new Item("Copy", Item::OBJECT);
+    mariohat = new Item("Mario Hat", Item::OBJECT);
+
     mainplace = new Room("Main", RoomDialogues::mainplace, MAIN, Room::NORMAL, false);
     alleyway = new Room("AlleyWay", RoomDialogues::alleyway, ALLEYWAY, Room::NORMAL, false);
     bridge = new Room("Bridge", RoomDialogues::bridge, BRIDGE, Room::NORMAL, false);
@@ -69,19 +75,12 @@ vector<Room*> ZorkUL::createRooms() {
     creepyroom = new Room("Creepy Room", RoomDialogues::creepyroom, CREEPYROOM, Room::NORMAL, false);
     flowershop = new Room("Flowershop", RoomDialogues::flowershop, FLOWERSHOP, Room::NORMAL, false);
     lakeview = new Room("Lake View", RoomDialogues::lakeview, LAKEVIEW, Room::NORMAL, false);
-    trainstation = new Room("Trainstation", RoomDialogues::trainstation, TRAINSTATION, Room::NORMAL, false);
+    trainstation = new WordleRoom("Trainstation", RoomDialogues::trainstation, TRAINSTATION, pen);
 
     vector<Room*> allRooms;
 
-    // Creating items and making them with the 'new' keyword.
-    Item *pen, *copy, *mariohat;
-    pen = new Item("Pen", Item::OBJECT);
-    copy = new Item("Copy", Item::OBJECT);
-    mariohat = new Item("Mario Hat", Item::OBJECT);
-
     // Adding items to rooms.
     *computerroom + mariohat;
-    *trainstation + pen;
     *alleyway + copy;
 
     // Setting the exists for every room.
@@ -143,12 +142,24 @@ void ZorkUL::deleteAll() {
 // Processing a command given by user.
 string ZorkUL::processCommand(Command command, MainWindow *window) {
     string output = "";
-
     string commandWord = command.getCommandWord();
 
+    // If we are in a wordle game, treat the input from user as a wordle attempt. Won't treat it as an input if it has a second word.
+    if(WordleGame::getWordleStatus() == WordleGame::PROGRESS && commandWord.compare("quit") != 0) {
+        output += WordleGame::evaluateInput(command.getCommandWord());
+
+        if(WordleGame::getWordleStatus() == WordleGame::PROGRESS) {
+            return output;
+        }
+        if(WordleGame::getWordleStatus() == WordleGame::STOP) {
+            ZorkUL::deleteAll();
+            exit(0);
+        }
+    }
+
     if (commandWord.compare("info") == 0){
+        // Return print help.
         output += printHelp();
-        //return printHelp();
     }
     else if (commandWord.compare("go") == 0){
 
@@ -158,6 +169,10 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             if(goRoom(command)){
                 ZorkUL::updateRoom(currentRoom, window);
 
+                if(ZorkUL::getCurrentRoom()->getRoomType() == Room::WORDLE) {
+                    output += Dialogues::welcome;
+                    return output;
+                }
                 output += currentRoom->getLongDescription();
             }
             else{
@@ -246,6 +261,16 @@ bool ZorkUL::goRoom(Command command) {
 void ZorkUL::updateRoom(Room *room, MainWindow *window) {
     currentRoom = room;
     window->updateBackground(room->getBackgroundPath());
+
+    if ((room->getRoomType() & Room::WORDLE) == Room::WORDLE) {
+        WordleGame::initWordleGame();
+        WordleGame::resetWordleGame();
+    }
+}
+
+// Adding an item to the users inventory.
+void ZorkUL::addItem(Item *item) {
+    itemsInInventory.push_back(item);
 }
 
 // Finding a specific item index in the itemsInInventory vector.
@@ -268,6 +293,40 @@ int ZorkUL::findItem(const string& item) {
     }
 
     return -1;
+}
+
+// Printing all the items in an inventory.
+string ZorkUL::printAllItems() {
+    string output = "";
+
+    if(itemsInInventory.size() <= 0) {
+        output = "You have no items in your inventory.\n";
+        return output;
+    }
+
+    output += "You are currently holding these items: ";
+    for(int i = 0; i < (int) itemsInInventory.size() - 1; i++) {
+        output += itemsInInventory.at(i)->getShortDescription();
+        output += ", ";
+    }
+    // Adding the last item to the output string.
+    output += itemsInInventory.at(itemsInInventory.size() - 1)->getShortDescription();
+    output += "\n";
+
+    return output;
+}
+
+// Deleting an item by index.
+void ZorkUL::deleteItemIndex(int index) {
+    if (index < (int) itemsInInventory.size()) {
+        delete itemsInInventory.at(index);
+        itemsInInventory.erase(itemsInInventory.begin() + index);
+    }
+}
+
+// Deleteing an item by name of item.
+void ZorkUL::deleteItemName(const string& item) {
+    deleteItemIndex(findItem(item));
 }
 
 // Parser set and get commands.

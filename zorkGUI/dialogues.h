@@ -18,6 +18,7 @@ struct Dialogues{
     const static string wordleOutOfAttempts;
 };
 
+// Namespace for every single location with details about the locations.
 namespace RoomDialogues {
 
     const string mainplace = "The main location which is a backalley"

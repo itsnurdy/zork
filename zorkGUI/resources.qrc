@@ -9,6 +9,7 @@
         <file>locations/trainstation.gif</file>
         <file>locations/main.gif</file>
         <file>locations/map.png</file>
+        <file>locations/logo.png</file>
     </qresource>
     <qresource prefix="/text">
         <file>text/wordle_words.txt</file>

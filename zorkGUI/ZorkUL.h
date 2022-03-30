@@ -7,11 +7,6 @@
 
 using namespace std;
 
-struct Quantities {
-    int KeysPresent : 4;
-    int Bombs : 4;
-};
-
 class ZorkUL {
 private:
     static Room *currentRoom;
@@ -19,7 +14,7 @@ private:
 
     void printWelcome();
     static string printHelp();
-    void createItems();
+    static string printAllItems();
     static bool goRoom(Command command);
     static Parser *parser;
     static Stack<Room*> recentRooms;
@@ -32,9 +27,11 @@ public:
 
     static void updateRoom(Room *room, MainWindow *window);
     static string processCommand(Command command, MainWindow *window);
-    static string giveReward();
     static Room *getCurrentRoom();
+    static void addItem(Item*);
     static int findItem(const string& item);
+    static void deleteItemIndex(int index);
+    static void deleteItemName(const string& item);
     static vector<Room*> createRooms();
     static void setAllRooms(vector<Room*> rooms);
     static vector<Room*> getAllRooms();

@@ -1,6 +1,7 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
+// This returns a string when there is a no room error.
 class NoRoomError {
 public:
     const char* what(){

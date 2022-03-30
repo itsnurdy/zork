@@ -16,12 +16,8 @@ class Item : public ItemType {
 protected:
     string description;
     string longDescription;
-
     string usedDialogue;
-
     type itemType;
-
-    string (*useFunc)(Item*);
 
 public:
     Item (string description, type ItemType);

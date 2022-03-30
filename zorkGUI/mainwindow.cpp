@@ -6,15 +6,15 @@
 #include "ZorkUL.h"
 
 #include <QMovie>
-#include <QKeyEvent>
-#include <QScrollBar>
 
 using namespace Constants;
 
+// Here we set the basics by setting the icon for the window and all the different properties.
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    setWindowIcon(QIcon(":/locations/locations/logo.png"));
     ui->setupUi(this);
     ui->outputConsole->setWordWrap(true);
 
@@ -22,10 +22,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->textEdit->setFocus();
 }
 
+// Window deconstructor.
 MainWindow::~MainWindow()
 {
     delete ui;
 
+    // Deleting the current movie.
     if (this->currentMovie != NULL) {
         delete this->currentMovie;
     }
@@ -41,7 +43,7 @@ void MainWindow::addStringToConsole(string input) {
     ui->outputConsole->setText(ui->outputConsole->text() + QString::fromStdString("\n") + QString::fromStdString(input));
 }
 
-// Clears the console and prints something.
+// Clears the console and prints the input given.
 void MainWindow::overwriteConsole(string input) {
     ui->outputConsole->clear();
     addStringToConsole(input);
@@ -91,7 +93,7 @@ void MainWindow::on_textEdit_textChanged() {
     // Removing the "\n" from the string.
     input = input.substr(0, newLineIndex);
 
-    // Checks if there are any newlines or if the "enter" key is pressed
+    // Checks if there are any newlines or if the "enter" key is pressed.
     if(newLineIndex != string::npos && input.size() > 0){
         this->parseInput(input);
 
@@ -106,6 +108,10 @@ void MainWindow::parseInput(string input){
 
     // Processes errors available.
     if(output.compare("") == 0){
+        if(ZorkUL::getCurrentRoom()->getRoomType() == Room::WORDLE) {
+            overwriteConsole("You can not leave this room until you complete the world, your only option is to quit.");
+            return;
+        }
         overwriteConsole(Dialogues::inputError);
         return;
     }

@@ -15,7 +15,7 @@ T Stack<T>::peek() {
     }
 }
 
-// Deleting off the heap.
+// Deleting stack off the heap.
 template <typename T>
 T Stack<T>::popDelete() {
     T output;
