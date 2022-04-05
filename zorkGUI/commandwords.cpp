@@ -12,14 +12,15 @@ CommandWords::CommandWords() {
         validCommands.push_back("quit");
         validCommands.push_back("info");
         validCommands.push_back("map");
+        validCommands.push_back("interact");
     }
 }
 
-// Puts all valid commands in a single string(used for printing)
+// Puts all valid commands in a single string (used for printing)
 string CommandWords::validCommandsToString(){
     string allValidCommands = "";
 
-    //Loops through validCommands and prints each to the screen.
+    // Loops through validCommands and prints each to the screen.
     for (unsigned int i = 0; i < validCommands.size() - 1; i++)
     {
         allValidCommands += validCommands.at(i) + ", ";

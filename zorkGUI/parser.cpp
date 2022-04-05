@@ -13,8 +13,7 @@ Command* Parser::convertToCommand(string input){
     string word2 = "";
     vector<string> words;
 
-    // Size type is basically an int that's big enough
-    // to represent the size of a string.
+    // Size type is basically an int that's big enough to represent size of string.
     string::size_type pos = 0, last_pos = 0;
 
     pos = input.find_first_of(' ', last_pos);	// Find first space.

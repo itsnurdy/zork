@@ -1,3 +1,5 @@
+// I mainly ported this file from the main zork project that was given but I do understand them and how it functions.
+
 #ifndef COMMANDWORDS_H
 #define COMMANDWORDS_H
 

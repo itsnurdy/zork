@@ -33,6 +33,7 @@ private slots:
     void on_leftButton_released();
     void on_quitButton_released();
     void on_mapButton_released();
+    void on_interactButton_released();
 
 private:
     Ui::MainWindow *ui;

@@ -180,7 +180,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             }
         }
         catch(NoRoomError& errorMessage){
-            output += errorMessage.what();
+            output += errorMessage.whathappened();
         }
     }
     else if (commandWord.compare("quit") == 0) {
@@ -203,6 +203,17 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
                       + currentRoom->exitString();
             window->updateBackground(MAP);
         }
+    }
+    else if (commandWord.compare("interact") == 0) {
+        if (ZorkUL::getCurrentRoom()->hasHiddenItems) {
+            currentRoom->itemsInRoom.push_back(ZorkUL::getCurrentRoom()->getAllItems().at(0));
+            output += "Congratualations, you have picked up: ";
+            output += ZorkUL::getCurrentRoom()->getAllItems().at(0)->getShortDescription();
+            output += ".\n";
+            return output;
+        }
+
+        output += "This room does not have any items you can collect.";
     }
 
     return output;
