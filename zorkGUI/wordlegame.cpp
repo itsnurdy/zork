@@ -8,6 +8,9 @@
 #include "dialogues.h"
 #include "wordlegame.h"
 
+// My preprocessor example.
+#define ISEQUAL(a,b) (((a)==(b)) ? a : b)
+
 using namespace std;
 
 vector<string> WordleGame::allWords;
@@ -94,7 +97,7 @@ string WordleGame::evaluateInput(const string& input) {
     }
 
 // Development purposes.
-//    output = output + " correct: " + correctWord + '\n';
+    output = output + " correct: " + correctWord + '\n';
 
     // If guess is correct status is set to success.
     if (correctLettersAmount == (int) correctWord.size()) {
@@ -105,10 +108,10 @@ string WordleGame::evaluateInput(const string& input) {
         WordleGame::triesRemaining--;
 
         if(WordleGame::triesRemaining <= 0) {
-            output += Dialogues::wordleOutOfAttempts;
+            output +=  "\n" + Dialogues::wordleOutOfAttempts;
             WordleGame::wordleStatus = WordleGame::STOP;
         } else {
-            output += Dialogues::printAttemptsLeft(WordleGame::triesRemaining);
+            output += "\n" + Dialogues::printAttemptsLeft(WordleGame::triesRemaining);
         }
     }
     return output;

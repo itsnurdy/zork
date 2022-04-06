@@ -5,7 +5,6 @@
 #include <iostream>
 using namespace std;
 
-
 class ItemType {
 public:
     enum type : int {HINT = 1, OBJECT = 2};

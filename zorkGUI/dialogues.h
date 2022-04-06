@@ -40,6 +40,5 @@ namespace RoomDialogues {
                             " down the pedals from the japaneese cherry trees.";
     const string lakeview = "As you look out you notice tall mountains behind the city, you notice this is the opposite angle"
                             " to the bridge angle.";
-
 }
 #endif // DIALOGUES_H
